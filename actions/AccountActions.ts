@@ -1,22 +1,10 @@
 "use server";
 
 import { db } from "@/lib/prisma";
-import { AccountFormValues } from "@/types";
+import { Account, AccountFormValues } from "@/types";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
-const serializeTransaction = (obj: any) => {
-  const serialized = { ...obj };
-  if (obj.balance) {
-    serialized.balance = obj.balance.toNumber();
-  }
-
-  if (obj.amount) {
-    serialized.amount = obj.amount.toNumber();
-  }
-  
-  return serialized;
-};
 
 export type CreateAccountResponse = {
   success: boolean;
@@ -37,7 +25,7 @@ export async function createAccount(data: AccountFormValues): Promise<CreateAcco
       throw new Error("User not found");
     }
 
-    const balanceFloat = parseFloat(data.balance);
+    const balanceFloat = data.balance;
     if (isNaN(balanceFloat)) {
       throw new Error("Invalid balance value");
     }
@@ -64,10 +52,14 @@ export async function createAccount(data: AccountFormValues): Promise<CreateAcco
       },
     });
 
-    const serializedAccount = serializeTransaction(account);
+    const result = {
+      ...account,
+      balance: account.balance.toNumber(),
+    };
+    // const serializedAccount = serializeTransaction(account);
     revalidatePath("/dashboard");
 
-    return { success: true, data: serializedAccount };
+    return { success: true, data: result };
   } catch (err: any) {
     console.log("Error in createAccount:", err.message);
     return { success: false, error: err.message || "Error while creating account" };
@@ -100,10 +92,17 @@ export async function getUserAccounts() {
       },
     });
 
-    // Serialize accounts before sending to client
+    const serializeTransaction = (account: any) => {
+      return {
+        ...account,
+        balance: account.balance.toNumber(),
+      };
+    };
+    
     const serializedAccounts = accounts.map(serializeTransaction);
-
     return serializedAccounts;
+
+
   } catch (error: any) {
     console.error("Error fetching accounts:", error.message);
     throw new Error(`Failed to fetch accounts: ${error.message}`);
@@ -153,10 +152,13 @@ export async function updateDefaultAccount(accountId: string): Promise<UpdateDef
     ]);
 
     revalidatePath("/dashboard");
-
+    const res = {
+      ...result[1],
+      balance: result[1].balance.toNumber(),
+    };
     return {
       success: true,
-      data: serializeTransaction(result[1]), // Return the updated default account
+      data: res,
     };
   } catch (error: any) {
     return { success: false, error: error.message || "An error occurred while updating default account" };
