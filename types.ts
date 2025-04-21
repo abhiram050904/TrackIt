@@ -78,7 +78,8 @@ export type Transaction = {
 export type Budget = {
   id: string;
   amount: number; // using number for budget amount
-  lastAlertSent?: Date;
+  lastAlertSent: Date | null;
   userId: string;
-  user: User;
+  createdAt: Date;
+  updatedAt: Date;
 };

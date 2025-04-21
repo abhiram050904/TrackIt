@@ -2,7 +2,7 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Account } from '@/types';
-import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight, IndianRupee } from 'lucide-react';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';  // Make sure you have this for toast notifications
@@ -61,7 +61,8 @@ const AccountCard = ({ account }: { account: Account }) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-           ${balance.toFixed(2)}
+          <IndianRupee className="inline h-4 w-4" />
+           {balance.toFixed(2)}
           </div>
           <p className="text-xs text-muted-foreground">
             {type.charAt(0) + type.slice(1).toLowerCase()} Account

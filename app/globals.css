@@ -145,3 +145,15 @@
 .hero-image.scrolled {
   transform: rotateX(0deg) translateY(40px);
 }
+
+
+/* styles.css or globals.css */
+.indicator-red {
+  @apply bg-red-500;
+}
+.indicator-yellow {
+  @apply bg-yellow-500;
+}
+.indicator-green {
+  @apply bg-green-500;
+}

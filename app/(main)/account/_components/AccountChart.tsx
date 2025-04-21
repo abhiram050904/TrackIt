@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Transaction } from "@/types";
+import { IndianRupee } from "lucide-react";
 
 // Explicitly define the type for DATE_RANGES
 type DateRange = {
@@ -36,18 +37,23 @@ const DATE_RANGES: Record<string, DateRange> = {
   ALL: { label: "All Time", days: null },
 };
 
-type DateRangeKey = keyof typeof DATE_RANGES;  // Infer the type of the keys
+type DateRangeKey = keyof typeof DATE_RANGES; // Infer the type of the keys
 
-export function AccountChart({ transactions }: { transactions: Transaction[] }) {
+export function AccountChart({
+  transactions,
+}: {
+  transactions: Transaction[];
+}) {
   const [dateRange, setDateRange] = useState<DateRangeKey>("1M");
 
   const filteredData = useMemo(() => {
     const range = DATE_RANGES[dateRange];
     const now = new Date();
     // Check if `days` is not null before performing arithmetic operations
-    const startDate = range.days !== null
-      ? startOfDay(subDays(now, range.days))
-      : startOfDay(new Date(0));
+    const startDate =
+      range.days !== null
+        ? startOfDay(subDays(now, range.days))
+        : startOfDay(new Date(0));
 
     // Filter transactions within date range
     const filtered = transactions.filter(
@@ -109,13 +115,15 @@ export function AccountChart({ transactions }: { transactions: Transaction[] }) 
           <div className="text-center">
             <p className="text-muted-foreground">Total Income</p>
             <p className="text-lg font-bold text-green-500">
-              ${totals.income.toFixed(2)}
+              <IndianRupee className="inline h-4 w-4" />
+              {totals.income.toFixed(2)}
             </p>
           </div>
           <div className="text-center">
             <p className="text-muted-foreground">Total Expenses</p>
             <p className="text-lg font-bold text-red-500">
-              ${totals.expense.toFixed(2)}
+              <IndianRupee className="inline h-4 w-4" />
+              {totals.expense.toFixed(2)}
             </p>
           </div>
           <div className="text-center">
@@ -127,7 +135,8 @@ export function AccountChart({ transactions }: { transactions: Transaction[] }) 
                   : "text-red-500"
               }`}
             >
-              ${(totals.income - totals.expense).toFixed(2)}
+              <IndianRupee className="inline h-4 w-4" />
+              {(totals.income - totals.expense).toFixed(2)}
             </p>
           </div>
         </div>
@@ -148,7 +157,7 @@ export function AccountChart({ transactions }: { transactions: Transaction[] }) 
                 fontSize={12}
                 tickLine={false}
                 axisLine={false}
-                tickFormatter={(value) => `$${value}`}
+                tickFormatter={(value) => `₹${value}`}
               />
               <Tooltip
                 formatter={(value) => [`$${value}`, undefined]}

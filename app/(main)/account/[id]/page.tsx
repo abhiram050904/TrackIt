@@ -4,6 +4,7 @@ import { BarLoader } from "react-spinners";
 import { notFound } from "next/navigation";
 import { AccountChart } from "../_components/AccountChart";
 import { TransactionTable } from "../_components/TransactionTable";
+import { IndianRupee } from "lucide-react";
 // import { TransactionTable } from "../_components/transaction-table";
 
 export default async function AccountPage({ params }: { params: { id: string } }) {
@@ -31,7 +32,8 @@ export default async function AccountPage({ params }: { params: { id: string } }
 
         <div className="text-right pb-2">
           <div className="text-xl sm:text-2xl font-bold">
-            ${(account.balance).toFixed(2)}
+          <IndianRupee className="inline h-4 w-4" />
+            {(account.balance).toFixed(2)}
           </div>
           <p className="text-sm text-muted-foreground">
             {account._count.transactions} Transactions

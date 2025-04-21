@@ -12,6 +12,7 @@ import {
   ChevronRight,
   RefreshCw,
   Clock,
+  IndianRupee,
 } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "sonner";
@@ -385,9 +386,18 @@ export function TransactionTable({
                     {transaction.category}
                   </span>
                 </TableCell>
-                <TableCell className="text-right">
-                  {transaction.amount}
-                </TableCell>
+                <TableCell
+                    className={cn(
+                      "text-right font-medium",
+                      transaction.type === "EXPENSE"
+                        ? "text-red-500"
+                        : "text-green-500"
+                    )}
+                  >
+                    {transaction.type === "EXPENSE" ? "-" : "+"}
+                    <IndianRupee className="inline h-4 w-4" />
+                    {transaction.amount.toFixed(2)}
+                  </TableCell>
                 <TableCell>
                   {transaction.isRecurring ? (
                     <TooltipProvider>
@@ -410,28 +420,29 @@ export function TransactionTable({
                               let nextDate: Date | null = null;
 
                               // Check for different recurring intervals and calculate next date
-                              if (transaction.recurringInterval === "MONTHLY") {
-                                nextDate = new Date(transaction.date);
-                                nextDate.setMonth(nextDate.getMonth() + 1); // Add 1 month
-                              } else if (
-                                transaction.recurringInterval === "WEEKLY"
-                              ) {
-                                nextDate = new Date(transaction.date);
-                                nextDate.setDate(nextDate.getDate() + 7); // Add 7 days for weekly recurrence
-                              } else if (
-                                transaction.recurringInterval === "DAILY"
-                              ) {
-                                nextDate = new Date(transaction.date);
-                                nextDate.setDate(nextDate.getDate() + 1); // Add 1 day for daily recurrence
-                              } else if (
-                                transaction.recurringInterval === "YEARLY"
-                              ) {
-                                nextDate = new Date(transaction.date);
-                                nextDate.setFullYear(
-                                  nextDate.getFullYear() + 1
-                                ); // Add 1 year for yearly recurrence
-                              }
+                              // if (transaction.recurringInterval === "MONTHLY") {
+                              //   nextDate = new Date(transaction.date);
+                              //   nextDate.setMonth(nextDate.getMonth() + 1); // Add 1 month
+                              // } else if (
+                              //   transaction.recurringInterval === "WEEKLY"
+                              // ) {
+                              //   nextDate = new Date(transaction.date);
+                              //   nextDate.setDate(nextDate.getDate() + 7); // Add 7 days for weekly recurrence
+                              // } else if (
+                              //   transaction.recurringInterval === "DAILY"
+                              // ) {
+                              //   nextDate = new Date(transaction.date);
+                              //   nextDate.setDate(nextDate.getDate() + 1); // Add 1 day for daily recurrence
+                              // } else if (
+                              //   transaction.recurringInterval === "YEARLY"
+                              // ) {
+                              //   nextDate = new Date(transaction.date);
+                              //   nextDate.setFullYear(
+                              //     nextDate.getFullYear() + 1
+                              //   ); // Add 1 year for yearly recurrence
+                              // }
 
+                              nextDate=transaction.nextRecurringDate!
                               // Check if nextDate is valid and return the formatted date
                               if (nextDate && !isNaN(nextDate.getTime())) {
                                 return <div>{format(nextDate, "PPP")}</div>;
