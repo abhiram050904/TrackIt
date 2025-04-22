@@ -74,6 +74,18 @@ export type Transaction = {
 };
 
 
+export type TransactionFormValues = {
+  type: "INCOME" | "EXPENSE";
+  amount: number;
+  description?: string;
+  date: Date;
+  accountId: string;
+  category: string;
+  isRecurring?: boolean;
+  recurringInterval?: "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
+};
+
+
 
 export type Budget = {
   id: string;

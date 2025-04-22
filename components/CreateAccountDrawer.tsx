@@ -60,10 +60,10 @@ export function CreateAccountDrawer({ children }: CreateAccountDrawerProps) {
   const onSubmit: SubmitHandler<AccountFormValues> = async (formData) => {
     setLoading(true);
     setError(null);
-
+  
     try {
       const response = await createAccount(formData);
-      setData(response);
+      setData(response.data ? { success: response.success, data: response.data } : { success: response.success, data: null });
       setError(null);
     } catch (err: unknown) {
       const error = err instanceof Error ? err : new Error("Failed to create account");

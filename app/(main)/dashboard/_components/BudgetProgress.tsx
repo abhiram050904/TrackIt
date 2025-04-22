@@ -15,12 +15,13 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { updateBudget } from "@/actions/BudgetActions";
+import { Budget } from "@/types";
 
 const BudgetProgress = ({
   initialBudget,
   currentExpenses,
 }: {
-  initialBudget: any;
+  initialBudget: Budget;
   currentExpenses: number;
 }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -29,10 +30,13 @@ const BudgetProgress = ({
   );
 
   const [loading, setLoading] = useState(false);
-
   const percentUsed = initialBudget
-    ? (currentExpenses / initialBudget.amount) * 100
-    : 0;
+  ? (currentExpenses / initialBudget.amount) * 100
+  : 0;
+  
+    console.log('the budgetamount at budgetprogess is',initialBudget.amount)
+            console.log('the totalexpenses at budgetprogess is',currentExpenses)
+            console.log('the percentage budgetprogess used is',percentUsed)
 
   const handleUpdateBudget = async () => {
     const amount = parseFloat(newBudget);

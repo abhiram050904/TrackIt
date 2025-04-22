@@ -19,12 +19,12 @@ const DashboardPage = async () => {
   }
   return (
     <div className="px-5">
-      {defaultAccount && <BudgetProgress initialBudget={budgetData?.budget} currentExpenses={budgetData?.currentExpenses || 0}/>}
+      {defaultAccount && <BudgetProgress initialBudget={budgetData?.budget!} currentExpenses={budgetData?.currentExpenses || 0}/>}
 
-      <DashboardOverview
+      {/* <DashboardOverview
         accounts={accounts}
         transactions={transactions || []}
-      />
+      /> */}
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <CreateAccountDrawer>

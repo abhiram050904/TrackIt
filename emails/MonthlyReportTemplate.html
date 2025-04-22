@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Monthly Financial Report</title>
+    <style>
+      body {
+        background-color: #f6f9fc;
+        font-family: -apple-system, sans-serif;
+      }
+      .container {
+        background-color: #ffffff;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+      }
+      .title {
+        color: #1f2937;
+        font-size: 32px;
+        font-weight: bold;
+        text-align: center;
+        margin: 0 0 20px;
+      }
+      .heading {
+        color: #1f2937;
+        font-size: 20px;
+        font-weight: 600;
+        margin: 0 0 16px;
+      }
+      .text {
+        color: #4b5563;
+        font-size: 16px;
+        margin: 0 0 16px;
+      }
+      .section {
+        margin-top: 32px;
+        padding: 20px;
+        background-color: #f9fafb;
+        border-radius: 5px;
+        border: 1px solid #e5e7eb;
+      }
+      .stats-container {
+        margin: 32px 0;
+        padding: 20px;
+        background-color: #f9fafb;
+        border-radius: 5px;
+      }
+      .stat {
+        margin-bottom: 16px;
+        padding: 12px;
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #e5e7eb;
+      }
+      .footer {
+        color: #6b7280;
+        font-size: 14px;
+        text-align: center;
+        margin-top: 32px;
+        padding-top: 16px;
+        border-top: 1px solid #e5e7eb;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="title">Monthly Financial Report</h1>
+      <p class="text">Hello [userName],</p>
+      <p class="text">Here’s your financial summary for [month]:</p>
+
+      <div class="stats-container">
+        <div class="stat">
+          <p class="text">Total Income</p>
+          <p class="heading">$[totalIncome]</p>
+        </div>
+        <div class="stat">
+          <p class="text">Total Expenses</p>
+          <p class="heading">$[totalExpenses]</p>
+        </div>
+        <div class="stat">
+          <p class="text">Net</p>
+          <p class="heading">$[netAmount]</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="heading">Expenses by Category</h2>
+        <!-- Repeat this block for each category -->
+        <div class="row">
+          <span class="text">[Category]</span>
+          <span class="text">$[Amount]</span>
+        </div>
+      </div>
+
+      <!-- Only show if insights exist -->
+      <div class="section">
+        <h2 class="heading">Welth Insights</h2>
+        <p class="text">• [Insight 1]</p>
+        <p class="text">• [Insight 2]</p>
+      </div>
+
+      <p class="footer">
+        Thank you for using Welth. Keep tracking your finances for better
+        financial health!
+      </p>
+    </div>
+  </body>
+</html>
