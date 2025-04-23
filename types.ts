@@ -58,7 +58,7 @@ export type Transaction = {
   id: string;
   type: "INCOME" | "EXPENSE";
   amount: number; // using number for balance and amount
-  description?: string | null;
+  description?: string;
   date: Date;
   category: string;
   receiptUrl?: string;
@@ -95,3 +95,13 @@ export type Budget = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+
+
+export interface ScannedData {
+  amount: number;
+  date: Date;
+  description: string;
+  merchantName: string;
+  category: string;
+}

@@ -41,7 +41,7 @@ export function DashboardOverview({
   accounts,
   transactions,
 }: DashboardOverviewProps) {
-  const [selectedAccountId, setSelectedAccountId] = useState<number>(
+  const [selectedAccountId, setSelectedAccountId] = useState<string>(
     accounts.find((a) => a.isDefault)?.id || accounts[0]?.id
   );
 
@@ -94,7 +94,7 @@ export function DashboardOverview({
           </CardTitle>
           <Select
             value={selectedAccountId.toString()}
-            onValueChange={(value) => setSelectedAccountId(Number(value))}
+            onValueChange={(value) => setSelectedAccountId((value))}
           >
             <SelectTrigger className="w-[140px]">
               <SelectValue placeholder="Select account" />
@@ -185,7 +185,7 @@ export function DashboardOverview({
                     ))}
                   </Pie>
                   <Tooltip
-                    formatter={(value) => `${value.toFixed(2)}`}
+                    formatter={(value) => `${value}`}
                     contentStyle={{
                       backgroundColor: "hsl(var(--popover))",
                       border: "1px solid hsl(var(--border))",

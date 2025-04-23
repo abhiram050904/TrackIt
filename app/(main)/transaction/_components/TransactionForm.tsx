@@ -30,6 +30,7 @@ import { createTransaction, updateTransaction } from "@/actions/TransactionActio
 import { transactionSchema } from "@/app/lib/TransactionFormSchema";
 import { ReceiptScanner } from "./RecieptScanner";
 import { TransactionFormValues } from "@/types";
+import { Category } from "@/data/categeries";
 
 // Type definitions for the props
 interface Account {
@@ -37,12 +38,6 @@ interface Account {
   name: string;
   balance: number;
   isDefault: boolean;
-}
-
-interface Category {
-  id: string;
-  name: string;
-  type: "INCOME" | "EXPENSE";
 }
 
 interface TransactionFormProps {
@@ -55,7 +50,7 @@ interface TransactionFormProps {
     description?: string;
     accountId: string;
     category: string;
-    date: string;
+    date: Date;
     isRecurring: boolean;
     recurringInterval?: "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
   } | null;
@@ -142,16 +137,29 @@ export function AddTransactionForm({
   };
   
 
-  const handleScanComplete = (scannedData: { amount: number; date: string; description?: string; category?: string }) => {
+  const handleScanComplete = (scannedData: { amount: number; date: Date; description?: string; category?: string; merchantName: string }) => {
     if (scannedData) {
+      console.log('scanned data came to tableform',scannedData)
       setValue("amount", scannedData.amount.toString());
       setValue("date", new Date(scannedData.date));
+      
+      // Concatenate merchantName to description
       if (scannedData.description) {
-        setValue("description", scannedData.description);
+        setValue("description", `${scannedData.merchantName} - ${scannedData.description}`);
+      } else {
+        setValue("description", scannedData.merchantName);  // If description is not present, set only merchantName
       }
+  
       if (scannedData.category) {
+        {filteredCategories.map((category) => (
+          <SelectItem key={category.id} value={category.id}>
+            {category.name}
+          </SelectItem>
+        ))}
         setValue("category", scannedData.category);
+        console.log('from the scan category set is:', scannedData.category);
       }
+  
       toast.success("Receipt scanned successfully");
     }
   };
@@ -228,7 +236,7 @@ export function AddTransactionForm({
             <SelectContent>
               {accounts.map((account) => (
                 <SelectItem key={account.id} value={account.id}>
-                  {account.name} ($(account.balance))
+                  {account.name} (₹{account.balance})
                 </SelectItem>
               ))}
               <CreateAccountDrawer>
@@ -251,20 +259,24 @@ export function AddTransactionForm({
       <div className="space-y-2">
         <label className="text-sm font-medium">Category</label>
         <Select
-          onValueChange={(value) => setValue("category", value)}
-          defaultValue={getValues("category")}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select category" />
-          </SelectTrigger>
-          <SelectContent>
-            {filteredCategories.map((category) => (
-              <SelectItem key={category.id} value={category.id}>
-                {category.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+    // Controlled select: value from form state
+    value={getValues("category")}
+    onValueChange={(value) => {
+      setValue("category", value);
+      console.log("Selected category value:", value);
+    }}
+  >
+    <SelectTrigger>
+      <SelectValue placeholder="Select category" />
+    </SelectTrigger>
+    <SelectContent>
+      {filteredCategories.map((category) => (
+        <SelectItem key={category.id} value={category.id}>
+          {category.name}
+        </SelectItem>
+      ))}
+    </SelectContent>
+  </Select>
         {errors.type?.message && (
           <p className="text-sm text-red-500">{errors.type?.message}</p>
         )}
@@ -354,7 +366,7 @@ export function AddTransactionForm({
       )}
 
       {/* Actions */}
-      <div className="flex gap-4">
+      <div className="flex flex-col gap-4">
         <Button
           type="button"
           variant="outline"

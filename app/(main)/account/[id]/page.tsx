@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { AccountChart } from "../_components/AccountChart";
 import { TransactionTable } from "../_components/TransactionTable";
 import { IndianRupee } from "lucide-react";
+import { Transaction } from "@/types";
 // import { TransactionTable } from "../_components/transaction-table";
 
 export default async function AccountPage({ params }: { params: { id: string } }) {
@@ -43,12 +44,12 @@ export default async function AccountPage({ params }: { params: { id: string } }
 
       {/* Chart Section */}
       <Suspense fallback={<BarLoader className="mt-4" width={"100%"} color="#9333ea" />}>
-        <AccountChart transactions={transactions} />
+        <AccountChart transactions={transactions as Transaction[]} />
       </Suspense>
 
       {/* Transactions Table */}
       <Suspense fallback={<BarLoader className="mt-4" width={"100%"} color="#9333ea" />}>
-        <TransactionTable transactions={transactions} />
+        <TransactionTable transactions={transactions as Transaction[]} />
       </Suspense>
     </div>
   );

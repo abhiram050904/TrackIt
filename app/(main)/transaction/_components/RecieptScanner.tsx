@@ -5,17 +5,17 @@ import { Camera, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { scanReceipt } from "@/actions/TransactionActions";
+import { ScannedData } from "@/types"; // adjust path based on your folder structure
 
-// Define the props type for the component
 interface ReceiptScannerProps {
-  onScanComplete: (scannedData: any) => void; // Modify 'any' to a more specific type if needed
+  onScanComplete: (scannedData: ScannedData) => void;
 }
 
 export function ReceiptScanner({ onScanComplete }: ReceiptScannerProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [scanReceiptLoading, setScanReceiptLoading] = useState(false);
-  const [scannedData, setScannedData] = useState<any>(null); // Replace 'any' with a more specific type
+  const [scannedData, setScannedData] = useState<ScannedData | null>(null);
   const [error, setError] = useState<Error | null>(null);
 
   const handleReceiptScan = async (file: File) => {
@@ -30,6 +30,7 @@ export function ReceiptScanner({ onScanComplete }: ReceiptScannerProps) {
     try {
       const response = await scanReceipt(file);
       setScannedData(response);
+      console.log('the data from scanner backend',response)
       setError(null);
     } catch (error: any) {
       setError(error);
@@ -41,10 +42,13 @@ export function ReceiptScanner({ onScanComplete }: ReceiptScannerProps) {
 
   useEffect(() => {
     if (scannedData) {
+      console.log('the scanned data is',scannedData)
       onScanComplete(scannedData);
       toast.success("Receipt scanned successfully");
     }
-  }, [scannedData, onScanComplete]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scannedData]); // Ensure onScanComplete is memoized from the parent
+  
 
   return (
     <div className="flex items-center gap-4">
