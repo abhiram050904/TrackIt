@@ -19,7 +19,7 @@ const DashboardPage = async () => {
   }
   return (
     <div className="px-5">
-      {defaultAccount && <BudgetProgress initialBudget={budgetData?.budget!} currentExpenses={budgetData?.currentExpenses || 0}/>}
+      {defaultAccount  && <BudgetProgress initialBudget={budgetData?.budget!} currentExpenses={budgetData?.currentExpenses || 0}/>}
 
       {/* <DashboardOverview
         accounts={accounts}

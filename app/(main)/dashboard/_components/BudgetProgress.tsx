@@ -30,14 +30,22 @@ const BudgetProgress = ({
   );
 
   const [loading, setLoading] = useState(false);
-  const percentUsed = initialBudget
+  const percentUsed = initialBudget && initialBudget.amount
   ? (currentExpenses / initialBudget.amount) * 100
   : 0;
-  
-    console.log('the budgetamount at budgetprogess is',initialBudget.amount)
-            console.log('the totalexpenses at budgetprogess is',currentExpenses)
-            console.log('the percentage budgetprogess used is',percentUsed)
 
+console.log(
+  'the budgetamount at budgetprogess is',
+  initialBudget?.amount ? initialBudget.amount : 'Not available'
+);
+console.log(
+  'the totalexpenses at budgetprogess is',
+  currentExpenses ? currentExpenses : 'Not available'
+);
+console.log(
+  'the percentage budgetprogess used is',
+  percentUsed ? percentUsed.toFixed(1) : 'Not available'
+);
   const handleUpdateBudget = async () => {
     const amount = parseFloat(newBudget);
 

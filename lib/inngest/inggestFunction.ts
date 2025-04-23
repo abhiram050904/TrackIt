@@ -1,10 +1,11 @@
 import { getCurrentBudget } from '@/actions/BudgetActions';
 import { db } from '../prisma';
 import { inngest } from './inngestClient';
-import { sendEmail } from '@/actions/SendEmail'; // Assuming this exists
-import EmailTemplate from '../../emails/Template'; // Assuming this exists
-// import { isNewMonth } from './utils'; // Assuming this helper checks for month change
-import { Prisma } from '@prisma/client'; // Ensure Prisma types are imported
+import { sendEmail } from '@/actions/SendEmail';  // Assuming this exists
+import TestEmail from '@/emails/my-email';
+import EmailTemplate from '@/emails/Template';
+
+
 
 function isNewMonth(lastAlertDate:Date, currentDate:Date) {
     return (
@@ -88,6 +89,8 @@ function isNewMonth(lastAlertDate:Date, currentDate:Date) {
             (!budget.lastAlertSent ||
               isNewMonth(new Date(budget.lastAlertSent), new Date()))
           ) {
+
+
             await sendEmail({
               to: budget.user.email,
               subject: `Budget Alert for ${defaultAccount.name}`,
@@ -96,12 +99,17 @@ function isNewMonth(lastAlertDate:Date, currentDate:Date) {
                 type: "budget-alert",
                 data: {
                   percentageUsed,
-                  budgetAmount: (budgetAmount),
-                  totalExpenses: (totalExpenses),
+                  budgetAmount: budgetAmount,
+                  totalExpenses: totalExpenses,
                   accountName: defaultAccount.name,
-                },
-              }),
+                }!,
+              })!,
             });
+
+            
+
+           
+  
             
 
             // Update the lastAlertSent to prevent sending duplicate alerts in the same month
