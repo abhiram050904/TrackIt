@@ -9,7 +9,15 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
+// 👇 These extend standard configs for Next.js, TypeScript, etc.
 const eslintConfig = [
+  ...compat.extends(
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@next/next/recommended"
+  ),
+
   {
     files: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
     rules: {
