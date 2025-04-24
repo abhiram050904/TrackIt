@@ -12,7 +12,7 @@ export async function sendEmail({ to, subject, react }: EmailData) {
   try {
     const data = await resend.emails.send({
       from: 'TrackIt <onboarding@resend.dev>',
-      to:'karunasreegorrepati@gmail.com',
+      to:'abhiram050904@gmail.com',
       subject,
       react,
     });
