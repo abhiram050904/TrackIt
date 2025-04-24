@@ -93,7 +93,7 @@ export function DashboardOverview({
             Recent Transactions
           </CardTitle>
           <Select
-            value={selectedAccountId.toString()}
+            value={(selectedAccountId ?? "N/A").toString()}
             onValueChange={(value) => setSelectedAccountId((value))}
           >
             <SelectTrigger className="w-[140px]">
@@ -101,7 +101,7 @@ export function DashboardOverview({
             </SelectTrigger>
             <SelectContent>
               {accounts.map((account) => (
-                <SelectItem key={account.id} value={account.id.toString()}>
+                <SelectItem key={account.id} value={account.id.toString()! || "N/A"}>
                   {account.name}
                 </SelectItem>
               ))}
