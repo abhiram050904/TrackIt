@@ -428,3 +428,32 @@ function calculateNextRecurringDate(startDate:Date, interval: string) {
 
 
 
+
+
+export async function getDashboardData(){
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const user = await db.user.findUnique({
+    where: { clerkUserId: userId },
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+  const transactions = await db.transaction.findMany({
+    where: { userId: user.id },
+    orderBy: { date: "desc" },
+  });
+
+  return transactions.map((transaction) => ({
+    ...transaction,
+    amount: transaction.amount.toNumber(), 
+    description: transaction.description ?? undefined,// Convert null to undefined
+    receiptUrl: transaction.receiptUrl ?? undefined,// Convert null to undefined
+    recurringInterval:transaction.recurringInterval ?? undefined,
+    nextRecurringDate:transaction.nextRecurringDate ?? undefined,
+    lastProcessed:transaction.lastProcessed ?? undefined,
+    
+  }));
+}

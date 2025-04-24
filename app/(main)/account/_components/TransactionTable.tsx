@@ -476,14 +476,11 @@ export function TransactionTable({
                           <DropdownMenuContent>
                             <DropdownMenuItem
                               onClick={() =>
-                                router.push(
-                                  `/transactions/edit/${transaction.id}`
-                                )
+                                router.push(`/transaction/create?edit=${transaction.id}`)
                               }
                             >
                               Edit
                             </DropdownMenuItem>
-                            <DropdownMenuItem>Duplicate</DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                               onClick={() => handleDelete(transaction.id)}
